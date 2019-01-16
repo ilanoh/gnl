@@ -42,21 +42,21 @@ size_t	ft_strlenchar(const char *s, const char c, const int start)
 }
 
 /* int		get_next_line2(const int fd, char **line)
-  {
-  char	*buff;
-  int		n;
-  int		ret;
+   {
+   char	*buff;
+   int		n;
+   int		ret;
 
-  if (!buff)
-  buff = ft_strnew(0);
-  while (ft_strchr(buff, '\n') == NULL)
-  {
-  ret = read(fd, buff, BUFF_SIZE);
-  if (ret == -1)
-  return (-1);
-  printf("%s\n", "1");
-  if (ret == 0 && ft_strchr(buff, '\n') == NULL)
-  {
+   if (!buff)
+   buff = ft_strnew(0);
+   while (ft_strchr(buff, '\n') == NULL)
+   {
+   ret = read(fd, buff, BUFF_SIZE);
+   if (ret == -1)
+   return (-1);
+   printf("%s\n", "1");
+   if (ret == 0 && ft_strchr(buff, '\n') == NULL)
+   {
  *line = ft_strjoin(*line, buff);
  printf("%s\n", "1.5");
  return (0);
@@ -99,22 +99,21 @@ int		get_next_line(const int fd, char **line)
 
 	if (!start)
 		start = 0;
-	printf("%d\n", 1);
-	buff = ft_strnew(0);
-	printf("%d\n", 2);
+	buff = ft_strnew(BUFF_SIZE);
 	if (!stack)
 		stack = ft_strnew(0);
-	printf("%d\n", 3);
 	while (ft_strchr(buff, '\n') == NULL
 			&& (code = read(fd, buff, BUFF_SIZE)) > 0)
 	{
-		stack = ft_strjoin(stack, buff);
+		if (!(stack = ft_strjoin(stack, buff)))
+			return (-1);
 	}
 	if (code == -1)
 		return (-1);
 	len = ft_strlenchar(stack, '\n', start);
+	printf("%d", len);
 	*line = ft_strsub(stack, start, len);
-	start = len + 1;
+	start = len;
 	return (code > 0 ? 1 : 0);
 }
 

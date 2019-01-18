@@ -31,13 +31,14 @@ char	*ft_strnjoin(char const *s1, char const *s2, size_t n)
 	return (s);
 }
 
-size_t	ft_strlenchar(const char *s, const char c, const int start)
+size_t	ft_strlenchar(const char *s, const char c)
 {
 	size_t	n;
 
-	n = start;
+	n = 0;
 	while (s[n] != c && s[n])
 		n++;
+	printf("%zu", n);
 	return (n);
 }
 
@@ -88,7 +89,7 @@ size_t	ft_strlenchar(const char *s, const char c, const int start)
  return (ret > 0 ? 1 : 0);
  } */
 
-int		get_next_line(const int fd, char **line)
+/* int		get_next_line(const int fd, char **line)
 {
 	static char *stack;
 	char		*buff;
@@ -114,6 +115,31 @@ int		get_next_line(const int fd, char **line)
 	printf("%d", len);
 	*line = ft_strsub(stack, start, len);
 	start = len;
+	return (code > 0 ? 1 : 0);
+} */
+
+int	get_next_line(const int fd, char **line)
+{
+	static char 	*stack;
+	char 		*buff;
+	char		*heap;
+	int		len;
+	int		code;
+
+	if (!stack)
+		stack = ft_strnew(0);
+	buff = ft_strnew(BUFF_SIZE);
+	heap = ft_strdup(stack);
+	while (ft_strchr(buff, '\n') == NULL
+		&& (code = read(fd, buff, BUFF_SIZE)) > 0)
+	{
+		heap = ft_strjoin(heap, buff);
+	}
+	len = ft_strlenchar(heap, '\n');
+	*line = ft_strsub(heap, 0, len);
+	stack = ft_strsub(heap, len + 1, ft_strlen(heap));
+        free(heap);
+	free(buff);
 	return (code > 0 ? 1 : 0);
 }
 

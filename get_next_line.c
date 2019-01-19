@@ -6,7 +6,7 @@
 /*   By: iohayon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 13:01:51 by iohayon           #+#    #+#             */
-/*   Updated: 2019/01/19 14:29:57 by iohayon          ###   ########.fr       */
+/*   Updated: 2019/01/19 20:17:09 by iohayon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	get_next_line(const int fd, char **line)
 	while (ft_strchr(buff, '\n') == NULL
 		&& (code = read(fd, buff, BUFF_SIZE)) > 0)
 	{
+		buff[code] = '\0';
 		if (!(heap = ft_strjoin(heap, buff)))
 			return (-1);
 	}
@@ -65,12 +66,14 @@ int	get_next_line(const int fd, char **line)
 		return (0);
 	len = ft_strlenchar(heap, '\n');
 	*line = ft_strsub(heap, 0, len);
+	free(stack);
 	stack = ft_strsub(heap, len + 1, ft_strlen(heap));
     free(heap);
+	free(buff);
 	return (1);
 }
 
-/*int	main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	char *line;
 	int fd;
@@ -79,18 +82,8 @@ int	get_next_line(const int fd, char **line)
 	i = 0;
 	fd = open(argv[1], O_RDONLY);
 	line = ft_strnew(0);
-	get_next_line(fd, &line);
-	printf("ligne [%d] : %s\n", i++, line);
-	get_next_line(fd, &line);
-	printf("ligne [%d] : %s\n", i++, line);
-	get_next_line(fd, &line);
-	printf("ligne [%d] : %s\n", i++, line);
-	get_next_line(fd, &line);
-	printf("ligne [%d] : %s\n", i++, line);
-	get_next_line(fd, &line);
-	printf("ligne [%d] : %s\n", i++, line);
-	get_next_line(fd, &line);
-	printf("ligne [%d] : %s\n", i++, line);
+	while (get_next_line(fd, &line) > 0)
+		printf("ligne [%d] : %s\n", i++, line);
 	free(line);
 	return (0);
-}*/
+}

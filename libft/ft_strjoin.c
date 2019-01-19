@@ -6,7 +6,7 @@
 /*   By: iohayon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 14:28:08 by iohayon           #+#    #+#             */
-/*   Updated: 2019/01/12 20:21:43 by iohayon          ###   ########.fr       */
+/*   Updated: 2019/01/19 14:35:42 by iohayon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	ft_strcpy(s, s1);
 	ft_strcpy(s + l, s2);
+	free((void *)s1);
 	return (s);
 }

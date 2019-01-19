@@ -6,7 +6,7 @@
 /*   By: iohayon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 13:01:51 by iohayon           #+#    #+#             */
-/*   Updated: 2019/01/13 17:38:21 by iohayon          ###   ########.fr       */
+/*   Updated: 2019/01/19 14:29:57 by iohayon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,82 +41,6 @@ size_t	ft_strlenchar(const char *s, const char c)
 	return (n);
 }
 
-/* int		get_next_line2(const int fd, char **line)
-   {
-   char	*buff;
-   int		n;
-   int		ret;
-
-   if (!buff)
-   buff = ft_strnew(0);
-   while (ft_strchr(buff, '\n') == NULL)
-   {
-   ret = read(fd, buff, BUFF_SIZE);
-   if (ret == -1)
-   return (-1);
-   printf("%s\n", "1");
-   if (ret == 0 && ft_strchr(buff, '\n') == NULL)
-   {
- *line = ft_strjoin(*line, buff);
- printf("%s\n", "1.5");
- return (0);
- }
- printf("%s\n", "2");
- if (ret == 0 && !(ft_strchr(buff, '\n') == NULL))
- {
- n = ft_strlenchar(buff, '\n');
- *line = ft_strnjoin(*line, buff, n);
- printf("%s\n", "2.5");
- return (0);
- }
- printf("%s\n", "3");
- if (ret > 0 && ft_strchr(buff, '\n') == NULL)
- {
- *line = ft_strjoin(*line, buff);
- printf("%s\n", "3.5");
- }
- printf("%s\n", "4");
- if (ret > 0 && !(ft_strchr(buff, '\n') == NULL))
- {
- n = ft_strlenchar(buff, '\n');
- *line = ft_strnjoin(*line, buff, n);
- printf("%s\n", "4.5");
- return (1);
- }
- printf("%s\n", "5");
- }
- return (ret > 0 ? 1 : 0);
- } */
-
-/* int		get_next_line(const int fd, char **line)
-{
-	static char *stack;
-	char		*buff;
-	static int	start;
-	int			len;
-	int			code;
-	int n = 0;
-
-	if (!start)
-		start = 0;
-	buff = ft_strnew(BUFF_SIZE);
-	if (!stack)
-		stack = ft_strnew(0);
-	while (ft_strchr(buff, '\n') == NULL
-			&& (code = read(fd, buff, BUFF_SIZE)) > 0)
-	{
-		if (!(stack = ft_strjoin(stack, buff)))
-			return (-1);
-	}
-	if (code == -1)
-		return (-1);
-	len = ft_strlenchar(stack, '\n', start);
-	printf("%d", len);
-	*line = ft_strsub(stack, start, len);
-	start = len;
-	return (code > 0 ? 1 : 0);
-} */
-
 int	get_next_line(const int fd, char **line)
 {
 	static char 	*stack;
@@ -125,11 +49,11 @@ int	get_next_line(const int fd, char **line)
 	int		len;
 	int		code;
 
-	if (fd < 0 || BUFF_SIZE < 1 || !line)
+	buff = ft_strnew(BUFF_SIZE);
+	if (fd < 0 || BUFF_SIZE < 1 || !line || (code = read(fd, buff, 0)) < 0)
 		return (-1);
 	if (!stack)
 		stack = ft_strnew(0);
-	buff = ft_strnew(BUFF_SIZE);
 	heap = ft_strdup(stack);
 	while (ft_strchr(buff, '\n') == NULL
 		&& (code = read(fd, buff, BUFF_SIZE)) > 0)
@@ -142,8 +66,7 @@ int	get_next_line(const int fd, char **line)
 	len = ft_strlenchar(heap, '\n');
 	*line = ft_strsub(heap, 0, len);
 	stack = ft_strsub(heap, len + 1, ft_strlen(heap));
-        free(heap);
-	free(buff);
+    free(heap);
 	return (1);
 }
 

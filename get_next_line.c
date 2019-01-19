@@ -38,7 +38,6 @@ size_t	ft_strlenchar(const char *s, const char c)
 	n = 0;
 	while (s[n] != c && s[n])
 		n++;
-	printf("%zu", n);
 	return (n);
 }
 
@@ -126,6 +125,8 @@ int	get_next_line(const int fd, char **line)
 	int		len;
 	int		code;
 
+	if (fd < 0 || BUFF_SIZE < 1 || !line)
+		return (-1);
 	if (!stack)
 		stack = ft_strnew(0);
 	buff = ft_strnew(BUFF_SIZE);
@@ -133,17 +134,20 @@ int	get_next_line(const int fd, char **line)
 	while (ft_strchr(buff, '\n') == NULL
 		&& (code = read(fd, buff, BUFF_SIZE)) > 0)
 	{
-		heap = ft_strjoin(heap, buff);
+		if (!(heap = ft_strjoin(heap, buff)))
+			return (-1);
 	}
+	if (*heap == '\0')
+		return (0);
 	len = ft_strlenchar(heap, '\n');
 	*line = ft_strsub(heap, 0, len);
 	stack = ft_strsub(heap, len + 1, ft_strlen(heap));
         free(heap);
 	free(buff);
-	return (code > 0 ? 1 : 0);
+	return (1);
 }
 
-int	main(int argc, char **argv)
+/*int	main(int argc, char **argv)
 {
 	char *line;
 	int fd;
@@ -166,4 +170,4 @@ int	main(int argc, char **argv)
 	printf("ligne [%d] : %s\n", i++, line);
 	free(line);
 	return (0);
-}
+}*/

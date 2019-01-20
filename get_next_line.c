@@ -6,7 +6,7 @@
 /*   By: iohayon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/12 13:01:51 by iohayon           #+#    #+#             */
-/*   Updated: 2019/01/19 20:17:09 by iohayon          ###   ########.fr       */
+/*   Updated: 2019/01/20 18:21:14 by iohayon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,6 @@
 #include "libft/libft.h"
 #include "get_next_line.h"
 #include <fcntl.h>
-
-char	*ft_strnjoin(char const *s1, char const *s2, size_t n)
-{
-	char	*s;
-	size_t	l;
-
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	l = ft_strlen(s1);
-	s = ft_strnew(l + n);
-	if (s == NULL)
-		return (NULL);
-	ft_strcpy(s, s1);
-	ft_strncpy(s + l, s2, n);
-	return (s);
-}
 
 size_t	ft_strlenchar(const char *s, const char c)
 {
@@ -46,7 +30,7 @@ int	get_next_line(const int fd, char **line)
 	static char 	*stack;
 	char 		*buff;
 	char		*heap;
-	int		len;
+	size_t		len;
 	int		code;
 
 	buff = ft_strnew(BUFF_SIZE);
@@ -71,19 +55,4 @@ int	get_next_line(const int fd, char **line)
     free(heap);
 	free(buff);
 	return (1);
-}
-
-int	main(int argc, char **argv)
-{
-	char *line;
-	int fd;
-	int i;
-
-	i = 0;
-	fd = open(argv[1], O_RDONLY);
-	line = ft_strnew(0);
-	while (get_next_line(fd, &line) > 0)
-		printf("ligne [%d] : %s\n", i++, line);
-	free(line);
-	return (0);
 }

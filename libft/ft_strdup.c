@@ -6,7 +6,7 @@
 /*   By: iohayon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 10:56:18 by iohayon           #+#    #+#             */
-/*   Updated: 2019/01/19 15:02:31 by iohayon          ###   ########.fr       */
+/*   Updated: 2019/02/02 15:42:56 by iohayon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,20 @@
 
 char	*ft_strdup(const char *src)
 {
-	char	*heap;
 	int		i;
-	int		j;
+	char	*str;
 
 	i = 0;
-	j = 0;
 	while (src[i])
 		i++;
-	heap = (char *)malloc(sizeof(char) * (i + 1));
-	if (heap == NULL)
+	if (!(str = (char*)malloc(sizeof(*str) * (i + 1))))
 		return (NULL);
-	while (src[j])
+	i = 0;
+	while (src[i])
 	{
-		heap[j] = src[j];
-		j++;
+		str[i] = src[i];
+		i++;
 	}
-	heap[j] = '\0';
-	return (heap);
+	str[i] = '\0';
+	return (str);
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: iohayon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/12 13:01:51 by iohayon           #+#    #+#             */
-/*   Updated: 2019/01/20 18:21:14 by iohayon          ###   ########.fr       */
+/*   Created: 2019/02/02 15:46:50 by iohayon           #+#    #+#             */
+/*   Updated: 2019/02/02 15:51:31 by iohayon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,17 @@ size_t	ft_strlenchar(const char *s, const char c)
 	return (n);
 }
 
-int	get_next_line(const int fd, char **line)
+int		get_next_line(const int fd, char **line)
 {
-	static char 	*stack;
-	char 		*buff;
+	static char	*stack = "\0";
+	char		buff[BUFF_SIZE + 1];
 	char		*heap;
-	size_t		len;
-	int		code;
+	int			code;
 
-	buff = ft_strnew(BUFF_SIZE);
 	if (fd < 0 || BUFF_SIZE < 1 || !line || (code = read(fd, buff, 0)) < 0)
 		return (-1);
-	if (!stack)
-		stack = ft_strnew(0);
 	heap = ft_strdup(stack);
-	while (ft_strchr(buff, '\n') == NULL
-		&& (code = read(fd, buff, BUFF_SIZE)) > 0)
+	while (!ft_strchr(heap, '\n') && (code = read(fd, buff, BUFF_SIZE)))
 	{
 		buff[code] = '\0';
 		if (!(heap = ft_strjoin(heap, buff)))
@@ -48,11 +43,8 @@ int	get_next_line(const int fd, char **line)
 	}
 	if (*heap == '\0')
 		return (0);
-	len = ft_strlenchar(heap, '\n');
-	*line = ft_strsub(heap, 0, len);
-	free(stack);
-	stack = ft_strsub(heap, len + 1, ft_strlen(heap));
-    free(heap);
-	free(buff);
+	*line = ft_strsub(heap, 0, ft_strlenchar(heap, '\n'));
+	stack = ft_strsub(heap, ft_strlenchar(heap, '\n') + 1, ft_strlen(heap));
+	free(heap);
 	return (1);
 }

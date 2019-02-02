@@ -6,7 +6,7 @@
 /*   By: iohayon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 11:20:30 by iohayon           #+#    #+#             */
-/*   Updated: 2019/01/12 13:55:03 by iohayon          ###   ########.fr       */
+/*   Updated: 2019/02/02 13:51:23 by iohayon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
-
-typedef struct      s_list
-{
-	void            *content;
-	size_t          content_size;
-	struct s_list   *next;
-}					t_list;
 
 void	*ft_memset(void *b, int c, size_t len);
 void	ft_bzero(void *s, size_t n);
@@ -76,6 +69,5 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char const *s, int fd);
 void	ft_putendl_fd(char const *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-t_list	*ft_lstnew(void const *content, size_t content_size);
 
 #endif

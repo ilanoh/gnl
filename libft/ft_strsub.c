@@ -6,7 +6,7 @@
 /*   By: iohayon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 14:21:05 by iohayon           #+#    #+#             */
-/*   Updated: 2019/01/20 17:51:10 by iohayon          ###   ########.fr       */
+/*   Updated: 2019/02/02 16:38:42 by iohayon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 char	*ft_strsub(char const *s, unsigned int start, size_t len)
 {
-	char	*s2;
-	char	*s3;
+	char	*ptr;
 
 	if (!s)
+		return (0);
+	if (!(ptr = (char *)malloc(sizeof(*ptr) * len + 1)))
 		return (NULL);
-	s2 = ft_strnew(len);
-	if (s2 == NULL)
-		return (NULL);
-	s3 = ft_strdup((char *)s + start);
-	s2 = ft_strncpy(s2, s3, len);
-	free(s3);
-	return (s2);
+	if (ptr)
+	{
+		ptr = ft_strncpy(ptr, &s[start], len);
+		ptr[len] = '\0';
+	}
+	return (ptr);
 }

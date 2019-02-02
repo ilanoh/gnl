@@ -6,7 +6,7 @@
 /*   By: iohayon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 11:20:30 by iohayon           #+#    #+#             */
-/*   Updated: 2019/02/02 13:51:23 by iohayon          ###   ########.fr       */
+/*   Updated: 2019/02/02 17:51:36 by iohayon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char const *s, int fd);
 void	ft_putendl_fd(char const *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
+char	*ft_strfreejoin(char const *s1, char const *s2);
 
 #endif

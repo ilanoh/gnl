@@ -6,7 +6,7 @@
 /*   By: iohayon <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 15:46:50 by iohayon           #+#    #+#             */
-/*   Updated: 2019/02/02 15:51:31 by iohayon          ###   ########.fr       */
+/*   Updated: 2019/02/02 18:07:07 by iohayon          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,36 +15,41 @@
 #include "get_next_line.h"
 #include <fcntl.h>
 
-size_t	ft_strlenchar(const char *s, const char c)
+static size_t		ft_strlen_line(char *str)
 {
-	size_t	n;
+	size_t				i;
 
-	n = 0;
-	while (s[n] != c && s[n])
-		n++;
-	return (n);
+	if (!str)
+		return (0);
+	i = 0;
+	while (str[i] && str[i] != '\n')
+		i++;
+	return (i);
 }
 
-int		get_next_line(const int fd, char **line)
+int					get_next_line(const int fd, char **line)
 {
-	static char	*stack = "\0";
-	char		buff[BUFF_SIZE + 1];
-	char		*heap;
-	int			code;
+	char			buffer[BUFF_SIZE + 1];
+	static char		*stock = "\0";
+	char			*tmp;
+	int				ret;
 
-	if (fd < 0 || BUFF_SIZE < 1 || !line || (code = read(fd, buff, 0)) < 0)
+	if (fd < 0 || BUFF_SIZE < 1 || !line || (ret = read(fd, buffer, 0)) < 0)
 		return (-1);
-	heap = ft_strdup(stack);
-	while (!ft_strchr(heap, '\n') && (code = read(fd, buff, BUFF_SIZE)))
+	tmp = ft_strdup(stock);
+	while ((!(ft_strchr(tmp, '\n'))) && (ret = read(fd, buffer, BUFF_SIZE)))
 	{
-		buff[code] = '\0';
-		if (!(heap = ft_strjoin(heap, buff)))
+		buffer[ret] = '\0';
+		if (!(tmp = ft_strfreejoin(tmp, buffer)))
 			return (-1);
 	}
-	if (*heap == '\0')
+	if (*tmp == '\0')
 		return (0);
-	*line = ft_strsub(heap, 0, ft_strlenchar(heap, '\n'));
-	stack = ft_strsub(heap, ft_strlenchar(heap, '\n') + 1, ft_strlen(heap));
-	free(heap);
+	*line = ft_strsub(tmp, 0, ft_strlen_line(tmp));
+	if (ft_strlen(tmp) == ft_strlen_line(tmp))
+		stock = ft_strdup(tmp + ft_strlen_line(tmp));
+	else
+		stock = ft_strdup(tmp + ft_strlen_line(tmp) + 1);
+	free(tmp);
 	return (1);
 }
